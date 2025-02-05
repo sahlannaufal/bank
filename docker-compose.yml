@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: db
+      DB_HOST: 103.160.63.164
       DB_USER: admin
       DB_PASSWORD: password
       DB_NAME: assessment
