@@ -47,32 +47,34 @@ func (s *UserService) RegisterUser(nama, nik, noHP string) (*models.User, error)
         NoHP:  noHP,
     }
     if err := s.userRepo.CreateUser(user); err != nil {
-        utils.LogError("Failed to create user", map[string]interface{}{
-            "error": err.Error(),
-            "nama":  nama,
-            "nik":   nik,
-            "no_hp": noHP,
-        })
+        utils.LogError("Failed to create user", map[string]interface{}{"error": err.Error()})
         return nil, err
+    }
+
+	if user.ID == 0 {
+        utils.LogError("User ID is still empty after creation", nil)
+        return nil, errors.New("gagal mendapatkan ID user")
     }
 
 	account := &models.Account{
-        NoRekening: generateNoRekening(), 
+        NoRekening: generateNoRekening(),
         Saldo:      0,
-        UserID:     user.ID, 
+        UserID:     user.ID,
     }
     if err := s.userRepo.CreateAccount(account); err != nil {
+        utils.LogError("Failed to create account", map[string]interface{}{"error": err.Error(), "user_id": user.ID})
         return nil, err
     }
 
-	createdUser, err := s.userRepo.FindUserByID(user.ID)
+	updatedUser, err := s.userRepo.FindUserByID(user.ID)
     if err != nil {
+        utils.LogError("Failed to retrieve user with account", map[string]interface{}{"user_id": user.ID})
         return nil, err
     }
 
     utils.LogInfo("User registered successfully", map[string]interface{}{
-        "user_id": createdUser.ID,
-        "nama":    createdUser.Nama,
+        "user_id": user.ID,
+        "nama":    user.Nama,
     })
-    return user, nil
+    return updatedUser, nil
 }
