@@ -48,6 +48,15 @@ func (s *UserService) RegisterUser(nama, nik, noHP string) (*models.User, error)
         return nil, err
     }
 
+	account := &models.Account{
+        NoRekening: generateNoRekening(), 
+        Saldo:      0,
+        UserID:     user.ID, 
+    }
+    if err := s.userRepo.CreateAccount(account); err != nil {
+        return nil, err
+    }
+
     utils.LogInfo("User registered successfully", map[string]interface{}{
         "user_id": user.ID,
         "nama":    user.Nama,
