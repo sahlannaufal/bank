@@ -4,11 +4,19 @@ import (
     "go-assessment/models"
     "go-assessment/repositories"
     "go-assessment/utils"
+	"math/rand"
+    "strconv"
+    "time"
     "errors"
 )
 
 type UserService struct {
     userRepo *repositories.UserRepository
+}
+
+func generateNoRekening() string {
+    rand.Seed(time.Now().UnixNano()) 
+    return strconv.Itoa(rand.Intn(9000000000) + 1000000000) 
 }
 
 func NewUserService(userRepo *repositories.UserRepository) *UserService {
