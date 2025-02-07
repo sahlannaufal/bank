@@ -41,7 +41,7 @@ func (r *UserRepository) CreateAccount(account *models.Account) error {
 
 func (r *UserRepository) FindUserByID(userID uint) (*models.User, error) {
     var user models.User
-    err := r.DB.Preload("Accounts").First(&user, userID).Error
+    err := r.DB.Preload("Accounts").Where("id = ?", userID).First(&user).Error
     if err != nil {
         return nil, err
     }
