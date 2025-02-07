@@ -35,7 +35,6 @@ func (s *AccountService) Tabung(noRekening string, nominal float64) (*models.Acc
         return nil, err
     }
 
-    // Catat transaksi
     transaction := &models.Transaction{
         Type:      models.TransactionTypeTabung,
         Nominal:   nominal,
@@ -86,7 +85,6 @@ func (s *AccountService) Tarik(noRekening string, nominal float64) (*models.Acco
         return nil, err
     }
 
-    // Catat transaksi
     transaction := &models.Transaction{
         Type:      models.TransactionTypeTarik,
         Nominal:   nominal,

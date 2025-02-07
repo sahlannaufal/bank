@@ -24,7 +24,7 @@ func NewUserService(userRepo *repositories.UserRepository) *UserService {
 }
 
 func (s *UserService) RegisterUser(nama, nik, noHP string) (*models.User, error) {
-    // Cek apakah NIK atau NoHP sudah digunakan
+   
     existingUser, err := s.userRepo.FindUserByNIK(nik)
     if err == nil && existingUser != nil {
         utils.LogWarn("NIK already exists", map[string]interface{}{
@@ -65,9 +65,14 @@ func (s *UserService) RegisterUser(nama, nik, noHP string) (*models.User, error)
         return nil, err
     }
 
+	createdUser, err := s.userRepo.FindUserByID(user.ID)
+    if err != nil {
+        return nil, err
+    }
+
     utils.LogInfo("User registered successfully", map[string]interface{}{
-        "user_id": user.ID,
-        "nama":    user.Nama,
+        "user_id": createdUser.ID,
+        "nama":    createdUser.Nama,
     })
     return user, nil
 }

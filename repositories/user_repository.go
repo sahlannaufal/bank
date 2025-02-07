@@ -38,3 +38,12 @@ func (r *UserRepository) FindUserByNoHP(noHP string) (*models.User, error) {
 func (r *UserRepository) CreateAccount(account *models.Account) error {
     return r.DB.Create(account).Error
 }
+
+func (r *UserRepository) FindUserByID(userID uint) (*models.User, error) {
+    var user models.User
+    err := r.DB.Preload("Accounts").First(&user, userID).Error
+    if err != nil {
+        return nil, err
+    }
+    return &user, nil
+}

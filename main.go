@@ -12,34 +12,25 @@ import (
 )
 
 func main() {
-    // Load environment variables
     config.LoadEnv()
 
-    // Initialize logger
     utils.InitLogger()
 
-    // Initialize database
     models.InitDB()
 
-    // Setup repositories
     userRepo := repositories.NewUserRepository(models.DB)
     accountRepo := repositories.NewAccountRepository(models.DB)
 
-    // Setup services
     userService := services.NewUserService(userRepo)
     accountService := services.NewAccountService(accountRepo)
 
-    // Setup handlers
     userHandler := handlers.NewUserHandler(userService)
     accountHandler := handlers.NewAccountHandler(accountService)
 
-    // Setup Echo
     e := echo.New()
 
-    // Initialize routes
     routes.InitRoutes(e, userHandler, accountHandler)
 
-    // Start server
     utils.LogInfo("Server started on :8080", nil)
     e.Logger.Fatal(e.Start(":8080"))
 }

@@ -1,7 +1,7 @@
 package models
 
 import (
-    "gorm.io/gorm" // Tambahkan import ini
+    "gorm.io/gorm"
 )
 
 type TransactionType string
