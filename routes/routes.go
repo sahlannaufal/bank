@@ -5,9 +5,12 @@ import (
     "github.com/labstack/echo/v4"
 )
 
-func InitRoutes(e *echo.Echo) {
-    e.POST("/daftar", handlers.Daftar)
-    e.POST("/tabung", handlers.Tabung)
-    e.POST("/tarik", handlers.Tarik)
-    e.GET("/saldo/:no_rekening", handlers.Saldo)
+func InitRoutes(e *echo.Echo, userHandler *handlers.UserHandler, accountHandler *handlers.AccountHandler) {
+    // User routes
+    e.POST("/daftar", userHandler.RegisterUser)
+
+    // Account routes
+    e.POST("/tabung", accountHandler.Tabung)
+    e.POST("/tarik", accountHandler.Tarik)
+    e.GET("/saldo/:no_rekening", accountHandler.CekSaldo)
 }

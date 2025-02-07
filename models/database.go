@@ -20,5 +20,5 @@ func InitDB() {
     if err != nil {
         panic("Failed to connect to database")
     }
-    DB.AutoMigrate(&Account{})
+    DB.AutoMigrate(&User{}, &Account{}, &Transaction{})
 }
