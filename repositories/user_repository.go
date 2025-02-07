@@ -36,5 +36,5 @@ func (r *UserRepository) FindUserByNoHP(noHP string) (*models.User, error) {
 }
 
 func (r *UserRepository) CreateAccount(account *models.Account) error {
-    return r.db.Create(account).Error
+    return r.DB.Create(account).Error
 }
